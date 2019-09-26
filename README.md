@@ -25,3 +25,37 @@ Rst Stream
 
 ```
 
+# How to Replicate
+
+ - Open Greeter.sln using Visual Studio and start Server using "Docker" 
+
+Alternatively you can just use Docker commands. 
+
+ - Open command promt or powershell and find your local ip adress.
+ ```sh
+$ ipconfig
+Windows IP Configuration
+...
+Wireless LAN adapter Wi-Fi:
+
+   Connection-specific DNS Suffix  . : localdomain
+   ...
+   IPv4 Address. . . . . . . . . . . : 192.168.1.35
+   ...
+   
+Ethernet adapter Bluetooth Network Connection:
+....
+```
+
+ - Open command promt or powershell and your docker image port.
+ ```sh
+$ docker ps
+CONTAINER ID        IMAGE                               COMMAND               CREATED             STATUS              PORTS                   NAMES
+a944cb151e1f        server:dev                          "tail -f /dev/null"   About an hour ago   Up About an hour    0.0.0.0:59055->80/tcp   optimistic_brahmagupta
+```
+
+in my case it ended being 192.168.1.35:59055
+
+- Open Android studio and Install Client-Android.
+- Open the installed app and call your build IP with some random message for example "test", it should return Hello test, it does not.
+
