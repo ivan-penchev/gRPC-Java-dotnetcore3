@@ -1,6 +1,10 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 AS base
 WORKDIR /app
+
 EXPOSE 80
+EXPOSE 13377
+EXPOSE 50051
+EXPOSE 50052
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build
 WORKDIR /src

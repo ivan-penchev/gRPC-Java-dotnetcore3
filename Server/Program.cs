@@ -16,8 +16,12 @@
 
 #endregion
 
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Net;
 
 namespace Server
 {
@@ -25,14 +29,28 @@ namespace Server
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args)
+               .Build()
+               .Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+        public static IWebHostBuilder CreateHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                .ConfigureKestrel((context, kestrelOptions) =>
                 {
-                    webBuilder.UseStartup<Startup>();
-                });
+                    kestrelOptions.ListenAnyIP(50052, listenOptions =>
+                    {
+                        listenOptions.Protocols = HttpProtocols.Http2;
+                    });
+                    kestrelOptions.ListenAnyIP(50051, listenOptions =>
+                    {
+                        listenOptions.Protocols = HttpProtocols.Http1;
+                    });
+                })
+                .UseStartup<Startup>()
+                .UseShutdownTimeout(TimeSpan.FromSeconds(15));
+        }
+
     }
 }
