@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  server:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "50051:50051"
+      - "50052:50052"
+  client:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80:80"
